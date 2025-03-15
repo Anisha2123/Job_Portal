@@ -140,38 +140,82 @@ useEffect(() => {
   //   }
   // };
 
-  useEffect(() => {
-    const filtered = jobs.filter((job) => {
-      const matchesTitle = job.title.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesType = jobType ? job.type === jobType : true;
-      const matchesExperience = experience ? Number(job.experience) >= Number(experience) : true;
-      const matchesLocation = location ? job.location.toLowerCase() === location.toLowerCase() : true;
+//   useEffect(() => {
+//     const filtered = jobs.filter((job) => {
+//       const matchesTitle = job.title.toLowerCase().includes(searchTerm.toLowerCase());
+//       const matchesType = jobType ? job.type === jobType : true;
+//       const matchesExperience = experience ? Number(job.experience) >= Number(experience) : true;
+//       const matchesLocation = location ? job.location.toLowerCase() === location.toLowerCase() : true;
        
-      // 🔍 Match Category based on keywords in the job title
-      const categoryKeywords: Record<string, string[]> = {
-        "Software Engineer": ["software engineer", "developer", "sde"],
-        "UI/UX": ["ui/ux", "designer"],
-        "AI/ML": ["ai", "ml", "machine learning", "artificial intelligence"],
-        "Web Dev": ["web developer", "frontend", "backend", "full stack"],
-        "Android Dev": ["android developer", "mobile developer"],
-        "Cloud Engineer": ["cloud", "aws", "azure", "gcp"],
-        "Product Manager": ["product manager", "pm"],
-      };
+//       // 🔍 Match Category based on keywords in the job title
+//       const categoryKeywords: Record<string, string[]> = {
+//         "Software Engineer": ["software engineer", "developer", "sde"],
+//         "UI/UX": ["ui/ux", "designer"],
+//         "AI/ML": ["ai", "ml", "machine learning", "artificial intelligence"],
+//         "Web Dev": ["web developer", "frontend", "backend", "full stack"],
+//         "Android Dev": ["android developer", "mobile developer"],
+//         "Cloud Engineer": ["cloud", "aws", "azure", "gcp"],
+//         "Product Manager": ["product manager", "pm"],
+//       };
       
   
-      // 🔍 Ensure category exists in the mapping before accessing it
-    const matchesCategory =
-    category === "" ||
-    (categoryKeywords[category] &&
-      categoryKeywords[category].some((keyword) => job.title.toLowerCase().includes(keyword)));
+//       // 🔍 Ensure category exists in the mapping before accessing it
+//     const matchesCategory =
+//     category === "" ||
+//     (categoryKeywords[category] &&
+//       categoryKeywords[category].some((keyword) => job.title.toLowerCase().includes(keyword)));
 
-  return matchesTitle && matchesType && matchesExperience && matchesLocation && matchesCategory;
-});
+
+
+//   return matchesTitle && matchesType && matchesExperience && matchesLocation && matchesCategory;
+// });
   
-    console.log("🛠️ Filtered Jobs:", filtered);
-    setFilteredJobs(filtered);
-  }, [jobs, searchTerm, experience, location, jobType, category]);
+//     console.log("🛠️ Filtered Jobs:", filtered);
+//     setFilteredJobs(filtered);
+//   }, [jobs, searchTerm, experience, location, jobType, category]);
   
+useEffect(() => {
+  const filtered = jobs.filter((job) => {
+    const matchesTitle = job.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = jobType ? job.type === jobType : true;
+    const matchesLocation = location ? job.location.toLowerCase() === location.toLowerCase() : true;
+
+    // ✅ Experience Filtering
+    let jobExp = job.experience.toLowerCase(); // e.g., "Fresher" or "3 years"
+    let selectedExp = Number(experience); // Convert selected experience to number
+
+    const isFresher = jobExp.includes("fresher");
+    const jobExpNumber = parseInt(jobExp); // Extract numeric value (e.g., 3 from "3 years")
+
+    const matchesExperience = experience
+      ? isFresher
+        ? selectedExp === 0 // Show fresher jobs when "0" is selected
+        : !isNaN(jobExpNumber) && jobExpNumber >= selectedExp // Match min experience
+      : true;
+
+    // 🔍 Category Mapping
+    const categoryKeywords: Record<string, string[]> = {
+      "Software Engineer": ["software engineer", "developer", "sde"],
+      "UI/UX": ["ui/ux", "designer"],
+      "AI/ML": ["ai", "ml", "machine learning", "artificial intelligence"],
+      "Web Dev": ["web developer", "frontend", "backend", "full stack"],
+      "Android Dev": ["android developer", "mobile developer"],
+      "Cloud Engineer": ["cloud", "aws", "azure", "gcp"],
+      "Product Manager": ["product manager", "pm"],
+    };
+
+    // ✅ Category Filtering (Matches job title with relevant keywords)
+    const matchesCategory =
+      category === "" ||
+      (categoryKeywords[category] &&
+        categoryKeywords[category].some((keyword) => job.title.toLowerCase().includes(keyword)));
+
+    return matchesTitle && matchesType && matchesExperience && matchesLocation && matchesCategory;
+  });
+
+  console.log("🛠️ Filtered Jobs:", filtered);
+  setFilteredJobs(filtered);
+}, [jobs, searchTerm, experience, location, jobType, category]); // ✅ Dependencies ensure re-filtering
 
   return (
     <div className=" main-con p-6">
@@ -192,7 +236,7 @@ useEffect(() => {
   <option value="Cloud Engineer">Cloud Engineer</option>
 </select>
 
-      <select value={experience} onChange={(e) => setExperience(e.target.value)} className="filter">
+      {/* <select value={experience} onChange={(e) => setExperience(e.target.value)} className="filter">
         <option value="">Select Experience</option>
         <option value="0">0</option>
         <option value="1">1</option>
@@ -210,7 +254,7 @@ useEffect(() => {
         <option value="work from home">Work from Home</option>
         <option value="remote">Remote</option>
         <option value="office">Office</option>
-      </select>
+      </select> */}
       </div>
       <div className="grid grid-cols-3 gap-4 card-section">
   {filteredJobs.length > 0 ? (

@@ -84,15 +84,67 @@ app.use("/api/jobs", jobRoutes); // Register routes
 //     res.status(500).json({ message: "Server error" });
 //   }
 // });
-app.get("/api/jobs/saved", async (req, res) => {
-  console.log("📡 Received request at /api/jobs/saved with filters:", req.query);
+// app.get("/api/jobs/saved", async (req, res) => {
+//   console.log("📡 Received request at /api/jobs/saved with filters:", req.query);
   
+//   try {
+//     let filters = {};
+
+//     if (req.query.category) {
+//       filters.title = { $regex: req.query.category, $options: "i" }; // Case-insensitive search
+//     }
+
+//     console.log("🛠️ Applied Filters:", filters);
+
+//     const jobs = await Job.find(filters);
+//     console.log("📝 Filtered Jobs:", jobs.length);
+
+//     res.json(jobs);
+//   } catch (error) {
+//     console.error("❌ Error fetching jobs:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
+
+app.get("/api/jobs/saved", async (req, res) => {
   try {
+    const { category, experience } = req.query;
+
     let filters = {};
 
-    if (req.query.category) {
-      filters.title = { $regex: req.query.category, $options: "i" }; // Case-insensitive search
+    // ✅ Apply category filter using regex
+    if (category) {
+      const categoryKeywords = {
+        "Software Engineer": ["software engineer", "developer", "sde"],
+        "UI/UX": ["ui/ux", "designer"],
+        "AI/ML": ["ai", "ml", "machine learning", "artificial intelligence"],
+        "Web Dev": ["web developer", "frontend", "backend", "full stack"],
+        "Android Dev": ["android developer", "mobile developer"],
+        "Cloud Engineer": ["cloud", "aws", "azure", "gcp"],
+        "Product Manager": ["product manager", "pm"],
+      };
+
+      // Match any keyword in the title
+      const categoryRegex = categoryKeywords[category]
+        ? categoryKeywords[category].map((keyword) => new RegExp(keyword, "i"))
+        : [new RegExp(category, "i")];
+
+      filters.title = { $in: categoryRegex };
     }
+
+   // ✅ Apply experience filter (Less than or equal to selected experience)
+   if (experience) {
+    const expNumber = Number(experience); // Convert string to number
+  
+    filters.$or = [
+      { experience: /fresher/i }, // Include "Fresher" jobs
+      { experience: { $regex: /^\d+/, $options: "i" } }, // Ensure jobs with numeric experience
+      { experience: { $regex: new RegExp(`^([0-${expNumber}])\\+?`, "i") } }, // Match experience <= selected value
+    ];
+  }
+  
+  
+
 
     console.log("🛠️ Applied Filters:", filters);
 
@@ -102,9 +154,10 @@ app.get("/api/jobs/saved", async (req, res) => {
     res.json(jobs);
   } catch (error) {
     console.error("❌ Error fetching jobs:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 
 
