@@ -51,17 +51,61 @@ app.use((req, res, next) => {
 app.use("/api/jobs", jobRoutes); // Register routes
 
 // ✅ **FETCH JOBS API**
-app.get("/api/jobs", async (req, res) => {
-  console.log("📡 Received request at /api/jobs/saved");
+// app.get("/api/jobs/saved", async (req, res) => {
+//   console.log("📡 Received request at /api/jobs/saved");
+//   try {
+//     const jobs = await Job.find();
+//     console.log("📝 Saved Jobs:", jobs);
+//     res.json(jobs);
+//   } catch (error) {
+//     console.error("❌ Error fetching jobs:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
+
+
+// app.get("/api/jobs/saved", async (req, res) => {
+//   console.log("📡 Received request at /api/jobs/saved with filters:", req.query);
+//   try {
+//     const query = {};
+
+//     if (req.query.title) query.title = { $regex: req.query.title, $options: "i" }; // Case-insensitive search
+//     if (req.query.experience) query.experience = { $gte: parseInt(req.query.experience) }; // Experience filtering
+//     if (req.query.location) query.location = req.query.location;
+//     if (req.query.type) query.type = req.query.type;
+//     if (req.query.category) query.category = req.query.category;
+
+//     const jobs = await Job.find(query);
+//     console.log("📝 Filtered Jobs:", jobs.length);
+
+//     res.json(jobs);
+//   } catch (error) {
+//     console.error("❌ Error fetching jobs:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
+app.get("/api/jobs/saved", async (req, res) => {
+  console.log("📡 Received request at /api/jobs/saved with filters:", req.query);
+  
   try {
-    const jobs = await Job.find();
-    console.log("📝 Saved Jobs:", jobs);
+    let filters = {};
+
+    if (req.query.category) {
+      filters.title = { $regex: req.query.category, $options: "i" }; // Case-insensitive search
+    }
+
+    console.log("🛠️ Applied Filters:", filters);
+
+    const jobs = await Job.find(filters);
+    console.log("📝 Filtered Jobs:", jobs.length);
+
     res.json(jobs);
   } catch (error) {
     console.error("❌ Error fetching jobs:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 
 // ✅ **404 Handler**
