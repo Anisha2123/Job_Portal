@@ -112,6 +112,11 @@ app.get("/api/jobs/saved", async (req, res) => {
 
     let filters = {};
 
+    // ✅ Apply Title Search
+    if (title) {
+      filters.title = { $regex: new RegExp(title, "i") }; // Case-insensitive search
+    }
+
     // ✅ Apply category filter using regex
     if (category) {
       const categoryKeywords = {
@@ -143,17 +148,38 @@ if (experience) {
   ];
 }
 
-  
-  
-
-
+   // ✅ Location Filtering
+   if (location) {
+    if (location === "Others") {
+      filters.location = { $nin: ["Banglore", "Hyderabad"] }; // Exclude these locations
+    } else {
+      filters.location = location;
+    }
+  }
     console.log("🛠️ Applied Filters:", filters);
 
-    const jobs = await Job.find(filters);
+    const totalJobs = await Job.countDocuments(filters); // ✅ Count total jobs
+    
+    
+    // ✅ Convert page & limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(limit, 10);
+
+    const jobs = await Job.find(filters)
+    .skip((pageNumber - 1) * pageSize) // Skip previous pages
+    .limit(pageSize); // Limit jobs per page
+
+    console.log(`📝 Page ${pageNumber}: ${jobs.length} jobs fetched`);
+
     console.log("📝 Filtered Jobs:", jobs.length);
 
-    res.json(jobs);
-  } catch (error) {
+    res.json({
+      jobs,
+      totalJobs, // ✅ Send total jobs for frontend pagination
+      totalPages: Math.ceil(totalJobs / pageSize), // ✅ Calculate total pages
+      currentPage: pageNumber,
+    });
+} catch (error) {
     console.error("❌ Error fetching jobs:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }

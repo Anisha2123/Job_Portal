@@ -159,4 +159,39 @@ h1{
       font-size: 0.8rem;
     }
   }
-  
+  /* Add this to your App.css */
+
+.search-bar {
+  width: 40rem; /* Full width */
+  padding: 12px 20px; /* Padding for top/bottom and left/right */
+  margin: 10px 0; /* Margin for spacing */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  color: #333; /* Text color */
+  background-color: #f9f9f9; /* Light background color */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+}
+
+.search-bar:focus {
+  border-color: #007bff; /* Change border color on focus */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Shadow on focus */
+  outline: none; /* Remove default outline */
+}
+
+@media (max-width: 1024px) { /* Tablet styles */
+    .search-bar {
+        padding: 10px 15px; /* Adjust padding */
+        font-size: 14px; /* Smaller font size */
+    }
+}
+
+/* Add this to your App.css */
+@media (max-width: 768px) { /* Mobile styles */
+    .search-bar {
+        width: 90%; /* Slightly reduced width */
+        padding: 10px; /* Adjust padding */
+        font-size: 14px; /* Smaller font size */
+    }
+}

@@ -31,16 +31,20 @@ function Home() {
 
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
-  // @ts-ignore  
+
   const [searchTerm, setSearchTerm] = useState("");
-  // @ts-ignore  
+
   const [experience, setExperience] = useState("");
-  // @ts-ignore  
+
   const [location, setLocation] = useState("");
-  // @ts-ignore  
+
   const [jobType, setJobType] = useState("");
   
   const [category, setCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); // ✅ Initialize totalPages
+const jobsPerPage = 10; // Number of jobs per page
+
 
 
 
@@ -103,7 +107,11 @@ function Home() {
  useEffect(() => {
  const fetchJobs = async () => {
   try {
-    const params: { [key: string]: string } = {};
+    const params: { [key: string]: string} = {
+      page: String(currentPage),
+        limit: String(jobsPerPage),
+    };
+    
 
     if (searchTerm) params.title = searchTerm;
     if (experience) params.experience = experience;
@@ -118,6 +126,7 @@ function Home() {
 
 
     console.log("🎯 Jobs received:", res.data); // Debugging
+    
     setJobs(res.data);
     setFilteredJobs(res.data); // ✅ Update filteredJobs immediately
   } catch (error) {
@@ -188,7 +197,7 @@ useEffect(() => {
     const matchesTitle = job.title.toLowerCase().includes(searchTerm.toLowerCase());
     // const matchesTitle = job.title?.toLowerCase() || ""; // Prevent undefined error
     const matchesType = jobType ? job.type === jobType : true;
-    const matchesLocation = location ? job.location.toLowerCase() === location.toLowerCase() : true;
+    // const matchesLocation = location ? job.location.toLowerCase() === location.toLowerCase() : true;
 
     // ✅ Experience Filtering
     let jobExp = job.experience.toLowerCase(); // e.g., "Fresher" or "3 years"
@@ -201,6 +210,14 @@ useEffect(() => {
       ? isFresher
         ? selectedExp === 0 // Show fresher jobs when "0" is selected
         : !isNaN(jobExpNumber) && jobExpNumber <= selectedExp // Match min experience
+      : true;
+
+
+      // Location filtering
+      const matchesLocation = location
+      ? location === "Others"
+        ? !["Banglore", "Hyderabad"].includes(job.location) // Show jobs NOT in Banglore or Hyderabad
+        : job.location === location // Match selected location
       : true;
 
     // 🔍 Category Mapping
@@ -233,11 +250,20 @@ useEffect(() => {
       <p>
        Whether you're looking for remote work, tech roles, or executive positions, HireSphere streamlines job hunting with real-time updates, intuitive filters, and seamless navigation—making career growth faster and smarter! 🚀
       </p>
+      <input
+  type="text"
+  placeholder="Search by Job Title..."
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  className="search-bar"
+/>
       
       <div className="filters">
+      
+
       <select value={category} onChange={(e) => setCategory(e.target.value)} className="filter">
   <option value="">Select Category</option>
-  <option value="Product Manager">Product Manager</option>
+  {/* <option value="Product Manager">Product Manager</option> */}
   <option value="Software Engineer">SDE</option>
   <option value="UI/UX">UI/UX</option>
   <option value="AI/ML">AI/ML</option>
@@ -255,16 +281,19 @@ useEffect(() => {
       </select>
       <select value={location} onChange={(e) => setLocation(e.target.value)} className="filter">
         <option value="">Select Location</option>
-        <option value="india">India</option>
-        <option value="outside india">Outside India</option>
+        <option value="Banglore">Banglore</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Remote">Remote</option>
+        <option value="Others">Others</option>
       </select>
-      <select value={jobType} onChange={(e) => setJobType(e.target.value)} className="filter">
+      {/* <select value={jobType} onChange={(e) => setJobType(e.target.value)} className="filter">
         <option value="">Select Job Type</option>
-        <option value="hybrid">Hybrid</option>
-        <option value="work from home">Work from Home</option>
-        <option value="remote">Remote</option>
-        <option value="office">Office</option>
-      </select>
+        <option value="Banglore">Banglore</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Remote">Remote</option>
+        <option value="Others">Others</option>
+  
+      </select> */}
       </div>
       <div className="grid grid-cols-3 gap-4 card-section">
   {filteredJobs.length > 0 ? (
@@ -278,6 +307,27 @@ useEffect(() => {
     <p className="text-red-500 font-bold">No jobs available</p>
   )}
 </div>
+<div className="pagination">
+<button
+  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+  disabled={currentPage === 1}
+>
+  Previous
+</button>
+
+<span> Page {currentPage} of {totalPages} </span>
+
+<button
+  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+  disabled={currentPage === totalPages}
+>
+  Next
+</button>
+
+</div>
+
+
+
 
     </div>
   );
