@@ -132,16 +132,17 @@ app.get("/api/jobs/saved", async (req, res) => {
       filters.title = { $in: categoryRegex };
     }
 
-   // ✅ Apply experience filter (Less than or equal to selected experience)
-   if (experience) {
-    const expNumber = Number(experience); // Convert string to number
-  
-    filters.$or = [
-      { experience: /fresher/i }, // Include "Fresher" jobs
-      { experience: { $regex: /^\d+/, $options: "i" } }, // Ensure jobs with numeric experience
-      { experience: { $regex: new RegExp(`^([0-${expNumber}])\\+?`, "i") } }, // Match experience <= selected value
-    ];
-  }
+  // ✅ Apply experience filter (Less than or equal to selected experience)
+if (experience) {
+  const expNumber = Number(experience); // Convert string to number
+
+  filters.$or = [
+    { experience: /fresher/i }, // Include "Fresher" jobs
+    { experience: { $regex: new RegExp(`^${expNumber}(\\+|\\s|$)`, "i") } }, // Match exact or "2+"
+    { experience: { $regex: /^\d+/, $options: "i" }, experience: { $lte: expNumber } }, // Ensure numeric experience
+  ];
+}
+
   
   
 

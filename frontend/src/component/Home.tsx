@@ -115,6 +115,8 @@ function Home() {
 
     // const res = await axios.get("http://localhost:5000/api/jobs/saved", { params });
     const res = await axios.get("https://job-portal-54lt.onrender.com/api/jobs/saved", { params });
+
+
     console.log("🎯 Jobs received:", res.data); // Debugging
     setJobs(res.data);
     setFilteredJobs(res.data); // ✅ Update filteredJobs immediately
@@ -183,8 +185,8 @@ useEffect(() => {
   
 useEffect(() => {
   const filtered = jobs.filter((job) => {
-    // const matchesTitle = job.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTitle = job.title?.toLowerCase() || ""; // Prevent undefined error
+    const matchesTitle = job.title.toLowerCase().includes(searchTerm.toLowerCase());
+    // const matchesTitle = job.title?.toLowerCase() || ""; // Prevent undefined error
     const matchesType = jobType ? job.type === jobType : true;
     const matchesLocation = location ? job.location.toLowerCase() === location.toLowerCase() : true;
 
@@ -198,7 +200,7 @@ useEffect(() => {
     const matchesExperience = experience
       ? isFresher
         ? selectedExp === 0 // Show fresher jobs when "0" is selected
-        : !isNaN(jobExpNumber) && jobExpNumber >= selectedExp // Match min experience
+        : !isNaN(jobExpNumber) && jobExpNumber <= selectedExp // Match min experience
       : true;
 
     // 🔍 Category Mapping
@@ -244,7 +246,7 @@ useEffect(() => {
   <option value="Cloud Engineer">Cloud Engineer</option>
 </select>
 
-      {/* <select value={experience} onChange={(e) => setExperience(e.target.value)} className="filter">
+      <select value={experience} onChange={(e) => setExperience(e.target.value)} className="filter">
         <option value="">Select Experience</option>
         <option value="0">0</option>
         <option value="1">1</option>
@@ -262,7 +264,7 @@ useEffect(() => {
         <option value="work from home">Work from Home</option>
         <option value="remote">Remote</option>
         <option value="office">Office</option>
-      </select> */}
+      </select>
       </div>
       <div className="grid grid-cols-3 gap-4 card-section">
   {filteredJobs.length > 0 ? (
