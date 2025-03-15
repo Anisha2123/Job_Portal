@@ -14,6 +14,7 @@ type Job = {
   experience: string;
   postedAt: string;
   type: string; // ✅ Add this line if job type exists in your API response
+  _id: string;  // ✅ Add this field
 };
 
 function Home() {
@@ -30,10 +31,15 @@ function Home() {
 
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+  // @ts-ignore  
   const [searchTerm, setSearchTerm] = useState("");
+  // @ts-ignore  
   const [experience, setExperience] = useState("");
+  // @ts-ignore  
   const [location, setLocation] = useState("");
+  // @ts-ignore  
   const [jobType, setJobType] = useState("");
+  
   const [category, setCategory] = useState("");
 
 
@@ -124,14 +130,14 @@ useEffect(() => {
 
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setJobs([]); // Clear jobs to trigger fetch
-      setPage(1); // Reset to first page
-    }, 86400000); // 24 hours in milliseconds
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setJobs([]); // Clear jobs to trigger fetch
+  //     setPage(1); // Reset to first page
+  //   }, 86400000); // 24 hours in milliseconds
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
   //   const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
