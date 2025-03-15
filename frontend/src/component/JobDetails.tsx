@@ -19,7 +19,8 @@ const JobDetails = () => {
   const [job, setJob] = useState<Job | null>(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/jobs/${jobId}`).then((response) => {
+    // axios.get(`http://localhost:5000/api/jobs/${jobId}`).then((response) => {
+      axios.get(`https://job-portal-54lt.onrender.com/api/jobs/${jobId}`).then((response) => {
       setJob(response.data);
     }).catch((error) => {
       console.error("Error fetching job:", error);
