@@ -52,16 +52,17 @@ app.use("/api/jobs", jobRoutes); // Register routes
 
 // ✅ **FETCH JOBS API**
 app.get("/api/jobs", async (req, res) => {
-  console.log("📡 Received request at /api/jobs");
+  console.log("📡 Received request at /api/jobs/saved");
   try {
     const jobs = await Job.find();
-    console.log("📝 Jobs found:", jobs); // Debugging log
+    console.log("📝 Saved Jobs:", jobs);
     res.json(jobs);
   } catch (error) {
     console.error("❌ Error fetching jobs:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // ✅ **404 Handler**
 app.use((req, res) => {

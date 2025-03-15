@@ -41,6 +41,9 @@ useEffect(() => {
       if (experience) query.append("experience", experience);
       if (location) query.append("location", location);
       if (jobType) query.append("jobType", jobType);
+
+      
+    console.log("Fetching with params:", query.toString()); // Debugging
   
       try {
         const res = await fetch(`http://localhost:5000/api/jobs?${query.toString()}`);
