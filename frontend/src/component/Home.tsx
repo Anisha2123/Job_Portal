@@ -104,7 +104,7 @@ const jobsPerPage = 10; // Number of jobs per page
 
  // Filter Jobs Dynamically
  // Fetch jobs from backend with filters
- useEffect(() => {
+ useEffect(() => {  
  const fetchJobs = async () => {
   try {
     const params: { [key: string]: string} = {
