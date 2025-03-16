@@ -1,75 +1,81 @@
-                                                             Job Board Application
-🚀 Overview
-A full-stack job board application that crawls job postings from sites like Naukri.com or LinkedIn Jobs and displays them in an interactive UI. Users can search for jobs, filter by location and experience, and view job details.
+# 🚀 Job Board Application  
 
-🛠 Features
-✅ Job crawling from external sources (Naukri, LinkedIn)
-✅ Search functionality for job titles
-✅ Filtering by location, experience, and category
-✅ Pagination for better performance
-✅ Job details page with an "Apply" button
-✅ Responsive UI for all devices
-✅ Auto-refresh data every 24 hours (Bonus)
+A **full-stack job board** that **fetches job postings** from platforms like **Naukri.com** and **LinkedIn Jobs** and displays them in a dynamic UI.  
+Users can **search, filter, and apply** for jobs with ease.  
 
-🏗 Tech Stack
-Frontend
-React (with TypeScript & TailwindCSS)
-Vite (for fast development)
-Backend
-Node.js & Express.js (API development)
-MongoDB (Database for storing job listings)
-Axios (for making HTTP requests)
-Cheerio/Puppeteer (for web scraping jobs)
-Deployment
-Frontend: Vercel
-Backend: Render
-Database: MongoDB Atlas
-🚀 Live Demo
-🔗 Live App
-🔗 GitHub Repository
+---
 
-⚡ Installation & Setup
-1️⃣ Clone the repository
-sh
-Copy
-Edit
+## 🎯 Features  
+
+✅ **Real-time job crawling** from Naukri/LinkedIn  
+✅ **Search bar** to find relevant jobs  
+✅ **Filters** for location, experience, and category  
+✅ **Pagination** for improved performance  
+✅ **Job details page** with an "Apply" button  
+✅ **Responsive UI** for all devices  
+✅ **Auto-refresh jobs every 24 hours** (Bonus)  
+
+---
+
+## 🏗 Tech Stack  
+
+### **Frontend:**  
+🚀 **React** (TypeScript, TailwindCSS)  
+⚡ **Vite** (Fast Development)  
+
+### **Backend:**  
+🌐 **Node.js & Express.js**  
+🗄 **MongoDB Atlas** (Database)  
+🔍 **Cheerio / Puppeteer** (Web Scraping)  
+
+### **Deployment:**  
+🖥 **Frontend:** Vercel  
+🌍 **Backend:** Render  
+📊 **Database:** MongoDB Atlas  
+
+---
+
+## 🚀 Live Demo  
+
+🔗 **[Live Application](YOUR_LIVE_LINK_HERE)**  
+🔗 **[GitHub Repository](YOUR_GITHUB_LINK_HERE)**  
+
+---
+
+## 📦 Installation & Setup  
+
+### **1️⃣ Clone the repository**  
 git clone YOUR_GITHUB_REPO_LINK
 cd job-board
-2️⃣ Backend Setup
-sh
-Copy
-Edit
+
+2️⃣ Setup Backend
 cd backend
 npm install
 npm start
-The backend runs on http://localhost:5000.
 
-3️⃣ Frontend Setup
-sh
-Copy
-Edit
+📌 Runs on http://localhost:5000
+
+3️⃣ Setup Frontend
 cd frontend
 npm install
 npm run dev
-The frontend runs on http://localhost:5173.
+
+📌 Runs on http://localhost:5173
 
 📡 API Endpoints
 1️⃣ Get All Jobs
-http
-Copy
-Edit
+
 GET /api/jobs/saved?page=1&limit=10
+
 📌 Filters Supported:
 
-title → Search for job title
+title → Search job title
 experience → Filter by experience (e.g., "Fresher", "3 years")
 location → Filter by job location
 category → Filter by category (e.g., "Software Engineer")
+
 Example Response:
 
-json
-Copy
-Edit
 {
   "jobs": [
     {
@@ -84,6 +90,7 @@ Edit
   "totalPages": 20,
   "currentPage": 1
 }
+
 
 🎯 Additional Features & Improvements
 ✅ Infinite scrolling / pagination for better performance
