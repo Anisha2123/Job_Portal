@@ -108,7 +108,8 @@ app.use("/api/jobs", jobRoutes); // Register routes
 
 app.get("/api/jobs/saved", async (req, res) => {
   try {
-    const { category, experience } = req.query;
+     // ✅ Correctly destructure all query parameters
+     const { title, category, experience, location, page = "1", limit = "10" } = req.query;
 
     let filters = {};
 
@@ -158,12 +159,15 @@ if (experience) {
   }
     console.log("🛠️ Applied Filters:", filters);
 
-    const totalJobs = await Job.countDocuments(filters); // ✅ Count total jobs
     
     
-    // ✅ Convert page & limit to numbers
-    const pageNumber = parseInt(page, 10);
-    const pageSize = parseInt(limit, 10);
+    
+   // ✅ Convert page & limit to numbers with defaults
+   const pageNumber = Math.max(parseInt(page, 10), 1);
+   const pageSize = Math.max(parseInt(limit, 10), 10);
+   
+  // ✅ Count total jobs
+   const totalJobs = await Job.countDocuments(filters); // ✅ Count total jobs
 
     const jobs = await Job.find(filters)
     .skip((pageNumber - 1) * pageSize) // Skip previous pages

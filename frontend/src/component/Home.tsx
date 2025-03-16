@@ -37,7 +37,7 @@ function Home() {
   const [experience, setExperience] = useState("");
 
   const [location, setLocation] = useState("");
-
+// @ts-ignore
   const [jobType, setJobType] = useState("");
   
   const [category, setCategory] = useState("");
@@ -127,14 +127,15 @@ const jobsPerPage = 10; // Number of jobs per page
 
     console.log("🎯 Jobs received:", res.data); // Debugging
     
-    setJobs(res.data);
-    setFilteredJobs(res.data); // ✅ Update filteredJobs immediately
+    setJobs(res.data.jobs || []); // ✅ Extract `jobs` array safely
+    setTotalPages(res.data.totalPages); // ✅ Store total pages
+    setFilteredJobs(res.data.jobs); // ✅ Update filtered jobs immediately
   } catch (error) {
     console.error("❌ Error fetching jobs:", error);
   }
 };
 fetchJobs();
-}, [searchTerm, experience, location, jobType, category]); // ✅ Dependencies added
+}, [searchTerm, experience, location, jobType, category, currentPage]); // ✅ Include currentPage
 
 useEffect(() => {
   console.log("Selected Filters:", { jobType, experience, location, category });
