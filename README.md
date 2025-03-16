@@ -37,14 +37,15 @@ Users can **search, filter, and apply** for jobs with ease.
 
 ## 🚀 Live Demo  
 
-🔗 **[Live Application](YOUR_LIVE_LINK_HERE)**  
-🔗 **[GitHub Repository](YOUR_GITHUB_LINK_HERE)**  
+🔗 **[Live Application](https://job-portal-orcin-delta.vercel.app/)**  
+🔗 **[GitHub Repository](https://github.com/Anisha2123/Job_Portal/)**  
 
 ---
 
 ## 📦 Installation & Setup  
 
 ### **1️⃣ Clone the repository**  
+
 git clone YOUR_GITHUB_REPO_LINK
 cd job-board
 
@@ -66,6 +67,8 @@ npm run dev
 1️⃣ Get All Jobs
 
 GET /api/jobs/saved?page=1&limit=10
+GET /jobs
+GET fetchJobsFromAPI()
 
 📌 Filters Supported:
 
@@ -99,7 +102,10 @@ Example Response:
 ✅ Minimal UI for better experience
 
 🎨 UI Screenshots
-(Add screenshots of your UI here)
+![image](https://github.com/user-attachments/assets/ff7550a9-0064-498b-86a2-5874b8ffeb2b)
+![image](https://github.com/user-attachments/assets/04c09349-d319-4775-8930-dc269496c8dc)
+
+
 
 📜 Contributing
 Want to improve the project? Feel free to fork and raise a PR!
