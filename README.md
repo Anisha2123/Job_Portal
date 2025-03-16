@@ -47,7 +47,7 @@ Users can **search, filter, and apply** for jobs with ease.
 
 ### **1️⃣ Clone the repository**  
 
-git clone YOUR_GITHUB_REPO_LINK
+git clone [YOUR_GITHUB_REPO_LINK](https://github.com/Anisha2123/Job_Portal/)
 cd job-board
 
 2️⃣ Setup Backend
