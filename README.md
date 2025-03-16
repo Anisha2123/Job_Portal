@@ -1,4 +1,4 @@
-Job Board Application
+                                                             Job Board Application
 🚀 Overview
 A full-stack job board application that crawls job postings from sites like Naukri.com or LinkedIn Jobs and displays them in an interactive UI. Users can search for jobs, filter by location and experience, and view job details.
 
