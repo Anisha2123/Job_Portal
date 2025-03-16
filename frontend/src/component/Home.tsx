@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import JobCard from "./JobCard";
-
+import Footer from "./Footer";
 import '../App.css';
 
 type Job = {
@@ -323,7 +323,7 @@ useEffect(() => {
 
 </div>
 
-
+<Footer/>
 
 
     </div>

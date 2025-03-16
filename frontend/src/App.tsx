@@ -106,6 +106,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import JobDetails from "./component/JobDetails";  // Import JobDetails
 import Home from "./component/Home";  // Import Home
+
 function App() {
   return (
     <Router>

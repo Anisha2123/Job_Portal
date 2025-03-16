@@ -11,8 +11,16 @@ const Job = require ( "./models/Job");
 require("dotenv").config();
 
 
+
 const app = express();
-app.use(cors()); // Enable CORS
+// app.use(cors()); // Enable CORS
+app.use(cors({
+  origin: "https://job-portal-orcin-delta.vercel.app", // ✅ Allow your frontend
+  methods: "GET, POST, PUT, DELETE",
+  allowedHeaders: "Content-Type, Authorization",
+  credentials: true
+}));
+
 app.use(express.json()); // Enable JSON parsing
 
 const PORT = 5000;

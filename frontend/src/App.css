@@ -192,6 +192,34 @@ h1{
     .search-bar {
         width: 90%; /* Slightly reduced width */
         padding: 10px; /* Adjust padding */
-        font-size: 14px; /* Smaller font size */
+        font-size: 14px; /* Smaller font size */ 
     }
+}
+/* ----------------------------------footer---------------------- */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #414e4f; 
+  color: #ffffff; 
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  /* border:1px solid red; */
+}
+
+.footer p {
+  margin: 5px 0;
+  color:white;
+  background-color: #414e4f; 
+}
+
+.name-highlight {
+  font-weight: bold;
+  color: #0c9f70; /* Highlighted name */
+  background-color: #414e4f; 
 }
