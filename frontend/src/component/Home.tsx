@@ -143,14 +143,10 @@ useEffect(() => {
 
 
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setJobs([]); // Clear jobs to trigger fetch
-  //     setPage(1); // Reset to first page
-  //   }, 86400000); // 24 hours in milliseconds
+  useEffect(() => {
+  setCurrentPage(1); // ✅ Reset page to 1 when filters change
+}, [searchTerm, experience, location, jobType, category]);
 
-  //   return () => clearInterval(interval);
-  // }, []);
 
   // const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
   //   const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
